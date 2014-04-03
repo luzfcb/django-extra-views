@@ -89,6 +89,8 @@ class MultiFormMixin(ContextMixin):
         definitions = self.get_form_definitions()
 
         for prefix, provider in definitions.iteritems():
+            if not isinstance(provider, FormProvider):
+                provider = self.form(provider)
             context_name = '%s_%s' % (prefix, provider.get_context_suffix())
             forms[context_name] = provider.get_form(self, prefix)
         return forms
